@@ -27,16 +27,22 @@ app.MapGet("/endpoint", async (ILogger<Program> logger, CancellationToken cancel
 
             logger.LogInformation("Waited 5 seconds");
 
-            return "Hello World!";
+            return "Hello World!";  
+
+            
         }
         catch (TaskCanceledException exception)
         {
-            logger.LogError("Ooops! The operation was cancelled.");
+            logger.LogError("Ooops! The operation was cancelled." + exception.Message);
 
             // Do some exception handling...
 
             // Here we are just throwing it again so can be visible in the logs
             throw;
+        }
+        finally
+        {
+            logger.LogInformation("Completed request...");
         }
     })
     .WithName("GetEndpoint");
